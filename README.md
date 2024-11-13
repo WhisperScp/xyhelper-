@@ -1,5 +1,6 @@
 # ChatGPT 拼车次数监控工具
-![2](https://github.com/user-attachments/assets/4b85f4cd-56c5-44a0-b003-2c79f8d14a09)
+![2](https://github.com/user-attachments/assets/c08f14d9-fbed-43f8-b973-8deff875287a)
+
 
 ## 项目介绍
 基于吴总拼车点开发的 ChatGPT 使用次数监控工具。当账户剩余次数低于设定阈值时，自动发送邮件提醒，帮助用户及时充值。
