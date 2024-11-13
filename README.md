@@ -48,6 +48,7 @@ python main.py
    - 打开浏览器开发者工具（F12）
    - 在Network标签页找到请求头中的Cookie
    - 复制 `user_id=xxxxxx` 部分
+![1](https://github.com/user-attachments/assets/cc85b2fd-71ce-4f1a-80d9-0c82a00f5919)
 
 2. **获取邮箱授权码**
    - QQ邮箱：设置 -> 账户 -> POP3/SMTP服务
