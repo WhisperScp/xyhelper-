@@ -1,7 +1,3 @@
-<<<<<<< HEAD
- #chatgpt-share-wechat
- 就是这个
-=======
 # ChatGPT 拼车次数监控工具
 
 ## 项目介绍
@@ -145,4 +141,3 @@ docker-compose restart
 
 ## 开源协议
 MIT License
->>>>>>> 4a4d40b (next)
