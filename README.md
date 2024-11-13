@@ -1,98 +1,143 @@
 # ChatGPT 拼车次数监控工具
 
 ## 项目介绍
-这是一个基于吴总拼车点开发的 ChatGPT 使用次数监控工具。当账户剩余次数低于设定阈值时，会自动发送邮件提醒，帮助用户及时充值，避免使用中断。
+基于吴总拼车点开发的 ChatGPT 使用次数监控工具。当账户剩余次数低于设定阈值时，自动发送邮件提醒，帮助用户及时充值。
 
-## 主要功能
-- 🔄 定期检查剩余使用次数
-- 📧 低次数邮件提醒（支持HTML美化邮件）
-- ⚙️ 可配置的监控参数（次数阈值、检查间隔）
-- 🔒 支持环境变量配置敏感信息
+## 功能特点
+- 🔄 自动监控剩余使用次数
+- 📧 低于阈值自动邮件提醒
+- 🎨 美化的HTML邮件模板
+- 🔧 支持多种邮箱配置
+- 🐳 支持Docker一键部署
 
-## 技术特点
-- 基于吴总拼车点API开发
-- 支持 QQ邮箱 SMTP 发送提醒邮件
-- 采用 dotenv 管理配置
-- HTML 模板渲染邮件内容
+## 快速开始
 
-## 使用方法
+### Docker 快速部署
 
-### 1. 环境要求
-- Python 3.7 或更高版本
-- 有效的拼车点账号和Cookie
-
-### 2. 安装依赖
-首先确保你在项目目录下，然后运行以下命令：
-
+1. 直接运行（推荐）：
 ```bash
-# 方法1：直接使用pip安装
-pip install -r requirements.txt
-
-# 方法2：如果下载速度慢，可以使用国内镜像源
-pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+docker run -d \
+  --name chatgpt-monitor \
+  --restart always \
+  -e SENDER_EMAIL=你的邮箱 \
+  -e RECEIVER_EMAIL=接收邮箱 \
+  -e EMAIL_PASSWORD=邮箱授权码 \
+  -e USER_COOKIE=你的Cookie \
+  whisperscp/xyhelper-agent-warning:latest
 ```
 
-### 3. 配置环境变量
-创建 `.env` 文件，填入以下配置：
+2. 使用 docker-compose：
+
+创建 `docker-compose.yml`：
+```yaml
+version: '3'
+services:
+  chatgpt-monitor:
+    image: whisperscp/xyhelper-agent-warning:latest
+    container_name: chatgpt-monitor
+    environment:
+      - SENDER_EMAIL=你的邮箱
+      - RECEIVER_EMAIL=接收邮箱
+      - EMAIL_PASSWORD=邮箱授权码
+      - USER_COOKIE=你的Cookie
+    restart: always
+```
+
+运行：
+```bash
+docker-compose up -d
+```
+
+### 环境变量说明
 
 ```env
 # 邮件配置
-SENDER_EMAIL=你的QQ邮箱
-RECEIVER_EMAIL=接收提醒的邮箱
-EMAIL_PASSWORD=QQ邮箱授权码（不是登录密码）
+SENDER_EMAIL=发件人邮箱
+RECEIVER_EMAIL=收件人邮箱
+EMAIL_PASSWORD=邮箱授权码
+SMTP_SERVER=smtp.qq.com  # 可选，自动识别常用邮箱
+SMTP_PORT=465           # 可选
+SMTP_SSL=true          # 可选
 
 # API配置
-USER_COOKIE=你的拼车点Cookie值
+USER_COOKIE=你的Cookie值
 
 # 监控配置
-THRESHOLD=1600        # 剩余次数警告阈值（建议设置在1000-2000之间）
-CHECK_INTERVAL=600    # 检查间隔时间（秒，建议10分钟）
+THRESHOLD=1600        # 警告阈值
+CHECK_INTERVAL=600    # 检查间隔（秒）
 ```
 
-### 4. 获取Cookie
-1. 登录 [拼车点网站](https://www.xyhelper-agent.com)
-2. 打开浏览器开发者工具（F12）
-3. 在网络（Network）标签页中找到请求头中的 `Cookie` 值
-4. 复制 `user_id=xxxxxx` 部分到配置文件
+### 获取配置信息
 
-### 5. 运行程序
+1. **获取Cookie**
+   - 登录 [拼车点网站](https://www.xyhelper-agent.com)
+   - 打开浏览器开发者工具（F12）
+   - 在Network标签页找到请求头中的Cookie
+   - 复制 `user_id=xxxxxx` 部分
+
+2. **获取邮箱授权码**
+   - QQ邮箱：设置 -> 账户 -> POP3/SMTP服务
+   - 163邮箱：设置 -> POP3/SMTP/IMAP -> 开启服务
+   - 其他邮箱请参考对应邮箱服务商说明
+
+## Docker 常用命令
+
 ```bash
-python remainingCapacity.py
+# 查看运行状态
+docker ps
+
+# 查看日志
+docker logs -f chatgpt-monitor
+
+# 停止服务
+docker-compose down
+
+# 重启服务
+docker-compose restart
 ```
 
-## 配置说明
-
-### 邮件配置
-- `SENDER_EMAIL`: 用于发送提醒的QQ邮箱
-- `RECEIVER_EMAIL`: 接收提醒的邮箱地址
-- `EMAIL_PASSWORD`: QQ邮箱的SMTP授权码
-
-### 监控配置
-- `THRESHOLD`: 次数警告阈值，当剩余次数低于此值时发送提醒
-- `CHECK_INTERVAL`: 检查间隔时间，单位为秒
-- `USER_COOKIE`: 拼车点账号的Cookie值
-
-## 注意事项
-1. 需要开启QQ邮箱的SMTP服务并获取授权码
-2. Cookie值请勿泄露给他人
-3. 建议将检查间隔设置在5-15分钟之间
-4. 警告阈值建议根据个人使用频率来设置
+## 支持的邮箱服务商
+- QQ邮箱 (@qq.com)
+- 163邮箱 (@163.com)
+- Gmail (@gmail.com)
+- Outlook (@outlook.com)
+- 其他邮箱需手动配置SMTP信息
 
 ## 常见问题
-1. 邮件发送失败
-   - 检查QQ邮箱是否开启SMTP服务
-   - 确认授权码是否正确
-   - 检查网络连接
 
-2. 获取次数失败
-   - 确认Cookie是否正确
-   - 检查Cookie是否过期
-   - 确认网络连接是否正常
+### 1. 邮件发送失败
+- 检查邮箱授权码是否正��
+- 确认SMTP服务是否开启
+- 检查网络连接状态
+
+### 2. 监控请求失败
+- 验证Cookie是否有效
+- 确认Cookie格式是否正确
+- 检查网络连接状态
+
+### 3. Docker相关问题
+- 确保Docker和Docker Compose已安装
+- 检查环境变量是否正确配置
+- 查看容器日志排查具体错误
+
+## 本地部署（不推荐）
+
+如果不使用Docker，也可以直接在本地运行：
+
+1. 安装Python 3.7+
+2. 安装依赖：`pip install -r requirements.txt`
+3. 配置环境变量
+4. 运行：`python main.py`
+
+## 注意事项
+- Cookie值请勿泄露给他人
+- 建议将检查间隔设置在5-15分钟之间
+- 警告阈值建议根据个人使用频率设置
+- 使用Docker部署时注意保护好.env文件
 
 ## 联系方式
-如有问题可以通过以下方式联系：
 - 拼车点官方群
-- 提交GitHub Issue
+- GitHub Issues
 
-## 许可证
+## 开源协议
 MIT License
