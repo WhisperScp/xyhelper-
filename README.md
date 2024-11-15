@@ -88,3 +88,53 @@ python main.py
 
 ## 开源协议
 MIT License
+
+## Docker 部署
+
+### 方式一：使用环境变量（推荐，一行命令运行）
+
+```bash
+docker run -d \
+           -e SENDER_EMAIL=xxx@qq.com \
+           -e RECEIVER_EMAIL=xxx@qq.com \
+           -e EMAIL_PASSWORD=你的授权码 \
+           -e USER_COOKIE=你的Cookie值 \
+           -e THRESHOLD=1600 \
+           -e CHECK_INTERVAL=600 \
+           -e SMTP_SERVER=smtp.qq.com \
+           -e SMTP_PORT=465 \
+           -e SMTP_SSL=true \
+           --restart always whisperscp/xyhelper-agent-warning:latest
+```
+
+只需要替换以下内容：
+- `xxx@qq.com` 替换为您的实际邮箱
+- `你的授权码` 替换为邮箱的授权码（QQ邮箱设置->账户->POP3/SMTP服务）
+- `你的Cookie值` 替换为从拼车点网站获取的 Cookie
+- 可选配置：
+  - THRESHOLD：警告阈值（默认1600）
+  - CHECK_INTERVAL：检查间隔，单位秒（默认600）
+  - SMTP_SERVER：邮箱服务器地址
+  - SMTP_PORT：邮箱服务器端口
+  - SMTP_SSL：是否使用SSL（true/false）
+
+常用命令：
+```bash
+# 查看容器日志
+docker logs 容器ID
+
+# 停止容器
+docker stop 容器ID
+
+# 重启容器
+docker restart 容器ID
+
+# 查看运行中的容器
+docker ps
+```
+
+常用邮箱 SMTP 配置：
+- QQ邮箱：smtp.qq.com:465 (SSL=true)
+- 163邮箱：smtp.163.com:465 (SSL=true)
+- Gmail：smtp.gmail.com:587 (SSL=false)
+- Outlook：smtp.office365.com:587 (SSL=false)
