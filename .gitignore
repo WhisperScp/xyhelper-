@@ -24,9 +24,6 @@ wheels/
 venv/
 env/
 ENV/
-.venv/
-.env/
-.ENV/
 
 # IDE
 .idea/
@@ -34,38 +31,22 @@ ENV/
 *.swp
 *.swo
 .DS_Store
-*.sublime-project
-*.sublime-workspace
-.project
-.pydevproject
-.settings/
 
-# 项目特定文件
+# 敏感信息文件（重要！）
 .env
-*.log
-*.pid
-*.db
-*.sqlite3
-*.sqlite
 .env.local
-.env.*.local
+.env.production
+.env.development
 
 # Docker
 .docker/
 docker-compose.override.yml
-*.env.docker
 
-# 测试和缓存
+# 测试
 .coverage
 htmlcov/
 .tox/
 .pytest_cache/
-.mypy_cache/
-.cache/
-nosetests.xml
-coverage.xml
-*.cover
-.hypothesis/
 
 # 系统文件
 .DS_Store
