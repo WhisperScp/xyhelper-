@@ -42,6 +42,7 @@ CHECK_INTERVAL=600    # 检查间隔（秒）
 ```bash
 python main.py
 ```
+![3](https://github.com/user-attachments/assets/e1a91398-0dbc-4df2-b9b9-2a7240ba0408)
 
 ### 获取配置信息
 
