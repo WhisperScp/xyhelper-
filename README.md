@@ -99,8 +99,8 @@ docker run -d \
            -e RECEIVER_EMAIL=xxx@qq.com \
            -e EMAIL_PASSWORD=你的授权码 \
            -e USER_COOKIE=你的Cookie值 \
-           -e THRESHOLD=1600 \
-           -e CHECK_INTERVAL=600 \
+           -e THRESHOLD=低于多少发邮件 \
+           -e CHECK_INTERVAL=多少秒检测一次 \
            -e SMTP_SERVER=smtp.qq.com \
            -e SMTP_PORT=465 \
            -e SMTP_SSL=true \
