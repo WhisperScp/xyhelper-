@@ -6,8 +6,20 @@ from email.mime.multipart import MIMEMultipart
 import time
 from dotenv import load_dotenv
 
-# 加载环境变量
-load_dotenv()
+# 修改加载环境变量的部分
+def load_env_file():
+    """尝试加载环境变量文件，优先使用.env，如果不存在则使用.env.example"""
+    if os.path.exists('.env'):
+        load_dotenv('.env')
+        print("已加载 .env 配置文件")
+    elif os.path.exists('.env.example'):
+        load_dotenv('.env.example')
+        print("警告: 未找到 .env 文件，使用 .env.example 作为配置")
+    else:
+        raise FileNotFoundError("未找到 .env 或 .env.example 配置文件")
+
+# 替换原来的 load_dotenv() 调用
+load_env_file()
 
 def get_smtp_settings():
     """获取SMTP服务器配置"""
